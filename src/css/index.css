@@ -1,0 +1,118 @@
+@import url('./reset.css');
+
+:root {
+  font-size: 16px;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  min-width: 375px;
+  max-width: 1440px;
+
+  width: 100%;
+  height: 100%;
+
+  margin: auto;
+}
+
+body, #root {
+  width: inherit;
+  height: inherit;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* flex-direction: column; */
+}
+
+#root > main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 75%;
+}
+
+main.calendar {
+  height: fit-content;
+  width: fit-content;
+  width: 325px;
+}
+
+.calendar__head div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 5rem;
+}
+
+.calendar__head div:first-child {
+  margin-bottom: 0.5rem;
+}
+
+.calendar__body table  {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar__body table thead tr,
+.calendar__body table tbody tr {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+}
+
+.calendar__body td.disable {
+  color: gray;
+}
+
+.calendar__body td.active {
+  color: white;
+  background-color: orange;
+}
+
+div.rdvList {
+  width: 75%;
+  margin: 2rem 0;
+}
+
+.rdvList table {
+  width: 100%;
+}
+
+.rdvList table td{
+padding: 1rem 0;
+}
+
+.rdvList table th, .rdvList table td{
+  text-align: left;
+}
+
+.active-rdv {
+  background-color: blue;
+  color: #fff;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0.5rem;
+}
+
+form input, form label {
+  width: 100%;
+}
+
+label {
+  margin: 1rem 0 0.25rem 0 ;
+}
+
+form button {
+  margin: 1rem 0;
+  padding: 1rem 0;
+}

@@ -1,0 +1,151 @@
+t
+import { createContext, useContext } from "react";
+import { CALENDAR_ACTIONS, DateContext } from "../contexts/DateContext";
+
+export const CalendarBody = () => {
+    const { date } = useContext(DateContext);
+
+    const firsDayDate = new Date(date.getFullYear(), date.getMonth(), 1);
+    const lastDayDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+    const interDays = Array(
+        lastDayDate.getDate() -
+            firsDayDate.getDate() -
+            lastDayDate.getDay() -
+            firsDayDate.getDay() -
+            2 -
+            1
+    )
+        .fill(0)
+        .map((d, i) => {
+            return i + 1 + firsDayDate.getDay() + lastDayDate.getDay();
+        });
+    const l = Array(Math.ceil(interDays.length / 7)).fill(0);
+
+    let semDays = [];
+    let lastSemDays;
+
+    return (
+        <section className='calendar__body'>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Lu</th>
+                        <th>Ma</th>
+                        <th>Me</th>
+                        <th>Je</th>
+                        <th>Ve</th>
+                        <th>Sa</th>
+                        <th>Di</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {Array(7)
+                            .fill(0)
+                            .map((d, i) => {
+                                if (i + 1 < firsDayDate.getDay()) {
+                                    const day =
+                                        new Date(
+                                            date.getFullYear(),
+                                            date.getMonth(),
+                                            0
+                                        ).getDate() + i;
+                                    return (
+                                        <td key={day} className='disable'>
+                                            {day}
+                                        </td>
+                                    );
+                                }
+                                const day = firsDayDate.getDate() + i - 1;
+                                return (
+                                    <td key={day}>
+                                        {day.toLocaleString("en-US", {
+                                            minimumIntegerDigits: 2,
+                                            useGrouping: false,
+                                        })}
+                                    </td>
+                                );
+                            })}
+                    </tr>
+                    {l.map((sem, i) => {
+                        semDays = interDays.slice(i * 7, (i + 1) * 7);
+                        lastSemDays =
+                            semDays.length < 6
+                                ? semDays.map((day) => (
+                                      <td key={day}>
+                                          {day < 10
+                                              ? day.toLocaleString("en-US", {
+                                                    minimumIntegerDigits: 2,
+                                                    useGrouping: false,
+                                                })
+                                              : day}
+                                      </td>
+                                  ))
+                                : [];
+                        if (semDays.length >= 7) {
+                            return (
+                                <tr key={"row" + i}>
+                                    {semDays.map((day) => (
+                                        <td key={day}>
+                                            {day < 10
+                                                ? day.toLocaleString("en-US", {
+                                                      minimumIntegerDigits: 2,
+                                                      useGrouping: false,
+                                                  })
+                                                : day}
+                                        </td>
+                                    ))}
+                                </tr>
+                            );
+                        }
+                    })}
+                    {Array(2)
+                        .fill(0)
+                        .map((s, i) => {
+                            const x = [
+                                ...lastSemDays,
+                                ...Array(7)
+                                    .fill(0)
+                                    .map((d, i, a) => {
+                                        if (i + 1 > lastDayDate.getDay()) {
+                                            const day =
+                                                new Date(
+                                                    lastDayDate.getFullYear(),
+                                                    lastDayDate.getMonth() + 1,
+                                                    1
+                                                ).getDate() -
+                                                lastDayDate.getDay() +
+                                                i;
+                                            return (
+                                                <td
+                                                    key={day}
+                                                    className='disable'>
+                                                    {day.toLocaleString(
+                                                        "en-US",
+                                                        {
+                                                            minimumIntegerDigits: 2,
+                                                            useGrouping: false,
+                                                        }
+                                                    )}
+                                                </td>
+                                            );
+                                        }
+                                        const day =
+                                            lastDayDate.getDate() -
+                                            lastDayDate.getDay() +
+                                            i +
+                                            1;
+                                        return <td key={day}>{day}</td>;
+                                    }),
+                            ].slice(i * 7, (i + 1) * 7);
+
+                            console.log(x);
+
+                            return <tr key={"rows-" + i}>{x}</tr>;
+                        })}
+                </tbody>
+            </table>
+        </section>
+    );
+};
